@@ -8,14 +8,14 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "./globals.h"
-#include "./init.c"
-#include "./assets.c"
-#include "./physics.c"
-#include "./engine.c"
-#include "./drawing.c"
-#include "./events.c"
-#include "./gameLoop.c"
+#include "./src/globals.h"
+#include "./src/init.c"
+#include "./src/assets.c"
+#include "./src/physics.c"
+#include "./src/engine.c"
+#include "./src/drawing.c"
+#include "./src/events.c"
+#include "./src/gameLoop.c"
 
 
 int main()

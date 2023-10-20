@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "sdl.h": "c",
+        "stdio.h": "c",
+        "math.h": "c",
+        "sdl_mixer.h": "c",
+        "sdl_ttf.h": "c",
+        "globals.h": "c"
+    }
+}

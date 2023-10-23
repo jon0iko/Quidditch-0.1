@@ -8,8 +8,8 @@ void StartGame()
     lives = MAX_LIFE;
 
     //harry
-    harry.X = 100;
-    harry.Y = 100;
+    harry.X = 450;
+    harry.Y = 350;
     oldX = harry.X;
     oldY = harry.Y;
     harry.DX = harry.X;

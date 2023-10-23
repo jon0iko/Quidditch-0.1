@@ -11,12 +11,11 @@ void UpdateGame() {
     if (Key(SDL_SCANCODE_DOWN) || Key(SDLK_s)) {movePlayerUD(SPEED);}
     if (Key(SDL_SCANCODE_RIGHT) || Key(SDLK_d)) {movePlayerLR(-SPEED);}
     if (Key(SDL_SCANCODE_LEFT) || Key(SDLK_a)) {movePlayerLR(SPEED);}
-    if (Key(SDLK_KP_3) || Key(SDLK_c)) {rotateBy(&harry, ROTATION);}
-    if (Key(SDLK_KP_1) || Key(SDLK_z)) {rotateBy(&harry, -ROTATION);}
+    if (Key(SDL_SCANCODE_PAGEDOWN) || Key(SDLK_c)) {rotateBy(&harry, ROTATION);}
+    if (Key(SDL_SCANCODE_PAGEUP) || Key(SDLK_z)) {rotateBy(&harry, -ROTATION);}
     // if (Key(SDL_SCANCODE_LEFT) || Key(SDLK_a)) {movePlayerLR(&harry, -ROTATION);}
 
     harryMovements();
-
 }
 
 void gameLoop(void)

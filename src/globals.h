@@ -21,6 +21,7 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Surface *background = NULL;
+SDL_Surface *quaffle = NULL;
 
 int Running = TRUE;
 int keypressed=FALSE;
@@ -29,6 +30,8 @@ int oldX, oldY, oldAngle,lives;
 double velocity = SPEED;
 int harryStill = TRUE;
 long KeyState[MAX_KEY];
+double shootTime = 0;
+
 
 typedef struct sprite{
    SDL_Surface *Img;
@@ -47,4 +50,4 @@ typedef struct object
 
 
 OBJECT harry;
-
+OBJECT *Quaffle;

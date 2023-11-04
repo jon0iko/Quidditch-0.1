@@ -35,10 +35,15 @@ void HandleEvents(){
       keypressed = TRUE;
       HandleKey(e.key.keysym.sym, TRUE);
     }
-
     if (e.type == SDL_KEYUP){
       keypressed = FALSE;
       HandleKey(e.key.keysym.sym, FALSE);
-    }  
+    } 
+    if (e.type == SDL_MOUSEBUTTONDOWN){
+      mouseclicked = TRUE;
+    }
+    if (e.type == SDL_MOUSEBUTTONUP){
+      mouseclicked = FALSE;
+    }
   }
 }

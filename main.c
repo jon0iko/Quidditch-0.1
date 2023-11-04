@@ -16,6 +16,7 @@
 #include "./src/drawing.c"
 #include "./src/events.c"
 #include "./src/gameLoop.c"
+#include "./src/linkedList.c"
 
 
 int main()

@@ -22,10 +22,14 @@ SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Surface *background = NULL;
 SDL_Surface *quaffle = NULL;
+SDL_Surface *MenuBG = NULL;
+Mix_Music *ThemeMusic = NULL;
+
 
 int Running = TRUE;
 int keypressed=FALSE;
 int mouseclicked=FALSE;
+int mouseX, mouseY;
 int oldX, oldY, oldAngle,lives;
 double velocity = SPEED;
 int harryStill = TRUE;

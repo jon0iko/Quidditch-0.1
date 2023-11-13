@@ -25,6 +25,7 @@ int main()
     initAudio();
     TTF_Init();
     loadComponents();
+    MainMenu();
     StartGame();
     gameLoop();
     destroyWindow();

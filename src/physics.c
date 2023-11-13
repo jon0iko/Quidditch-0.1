@@ -38,13 +38,13 @@ void movePlayerLR(int speed)
    harry.Y = round(harry.DY);
 }
 
-void rotateBy(OBJECT *Object, float D)
+void rotateBy(OBJECT *Object, float rotation)
 {
    float temp;
 
-   if (fabs(Object->Angle + D) < 181)
+   if (fabs(Object->Angle + rotation) < 181)
    {
-      temp = Object->Angle + D;
+      temp = Object->Angle + rotation;
       Object->Angle = round(temp);
    }
    else
@@ -129,8 +129,7 @@ void moveProjectiles()
          p->X = round(p->FX);
          p->Y = round(p->FY);
       }
-      if (p->Life != -1)
-         p->Life = p->Life - 1;
+      
       if (p->Y < -10 || p->Y > SCREEN_H + 10 || p->X < -10 || p->X > SCREEN_W + 10 || p->Life == 0)
       {
          deleteObject(&Quaffle, i, TRUE);
@@ -141,9 +140,9 @@ void moveProjectiles()
 
 void ShootQuaffle()
 {
-   if (SDL_GetTicks() - shootTime < 100)
+   if (SDL_GetTicks() - shootTime < 500)
    {
-      // Do nothing
+      //Wait
    }
    else
    {

@@ -12,7 +12,6 @@ void MainMenu()
     char exitStr[20];
     int keyFlag = FALSE;
     SDL_Event e;
-    int tflag = FALSE;
 
 
     Mix_PlayMusic(ThemeMusic, -1); 
@@ -22,7 +21,7 @@ void MainMenu()
 
     sprintf(titleStr, "Quidditch-Arcade");
     DrawText(titleStr, 125, 225, 100, 255, 255, 255, 0, 0, 0, TRUE);
-    
+
     sprintf(playStr, "Play");
     DrawText(playStr, 70, 450, 275, 255, 255, 255, 0, 0, 0, TRUE);
 
@@ -60,7 +59,6 @@ void MainMenu()
                         mouseY >= 275 && mouseY <= 325)
                     {
                         keyFlag = TRUE;
-                        tflag = TRUE;
                     }
                 }
             }

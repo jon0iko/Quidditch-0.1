@@ -2,33 +2,32 @@
 
 #include "./globals.h"
 
-void DrawText(char* string,int size, int x, int y,int fR, int fG, int fB,int bR, int bG, int bB, int transparent)
+void DrawText(char *string, int size, int x, int y, int fR, int fG, int fB, int bR, int bG, int bB, int transparent)
 {
 
-//if (TTF_Init == NULL) exit(0);
+  // if (TTF_Init == NULL) exit(0);
 
-TTF_Font* font = TTF_OpenFont("src/font/HARRYP__.TTF", size);
+  TTF_Font *font = TTF_OpenFont("src/font/HARRYP__.TTF", size);
 
-SDL_Color foregroundColor = { fR, fG, fB, 0 };
-SDL_Color backgroundColor = { bR, bG, bB, 0 };
-SDL_Surface* textSurface; 
+  SDL_Color foregroundColor = {fR, fG, fB, 0};
+  SDL_Color backgroundColor = {bR, bG, bB, 0};
+  SDL_Surface *textSurface;
 
-if (transparent == TRUE)
-   textSurface = TTF_RenderText_Blended(font, string, foregroundColor);
-else
-   textSurface = TTF_RenderText_Shaded(font, string, foregroundColor,backgroundColor);
+  if (transparent == TRUE)
+    textSurface = TTF_RenderText_Blended(font, string, foregroundColor);
+  else
+    textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
 
-SDL_Texture* texture1 = SDL_CreateTextureFromSurface(renderer, textSurface);
+  SDL_Texture *texture1 = SDL_CreateTextureFromSurface(renderer, textSurface);
 
-SDL_Rect textLocation = { x, y, textSurface->w, textSurface->h };
+  SDL_Rect textLocation = {x, y, textSurface->w, textSurface->h};
 
-SDL_RenderCopy(renderer, texture1, NULL, &textLocation);
+  SDL_RenderCopy(renderer, texture1, NULL, &textLocation);
 
-SDL_FreeSurface(textSurface);
-SDL_DestroyTexture(texture1);
+  SDL_FreeSurface(textSurface);
+  SDL_DestroyTexture(texture1);
 
-TTF_CloseFont(font);
-
+  TTF_CloseFont(font);
 }
 
 void Draw(int X, int Y, SDL_Surface *Img)
@@ -78,6 +77,14 @@ void DrawScreen()
   Draw(0, 0, background);
   DrawObject(harry);
 
+  if (bludgers != NULL)
+  {
+    for (int i = 0; i < length(&bludgers); i++)
+    {
+      DrawDynamicObject(getObject(bludgers, i));
+    }
+  }
+
   if (Quaffle != NULL && length(&Quaffle) > 0)
   {
     for (int i = 0; i < length(&Quaffle); i++)
@@ -88,4 +95,3 @@ void DrawScreen()
 
   SDL_RenderPresent(renderer);
 }
-

@@ -13,7 +13,6 @@
 #define DOWN 10
 #define SPEED 12
 #define ROTATION 5.5
-#define MAX_LIFE 100
 #define MAX_KEY 1000
 #define PI 3.14159265
 
@@ -22,6 +21,7 @@ SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Surface *background = NULL;
 SDL_Surface *quaffle = NULL;
+SDL_Surface *bludger = NULL;
 SDL_Surface *MenuBG = NULL;
 Mix_Music *ThemeMusic = NULL;
 
@@ -30,7 +30,7 @@ int Running = TRUE;
 int keypressed=FALSE;
 int mouseclicked=FALSE;
 int mouseX, mouseY;
-int oldX, oldY, oldAngle,lives;
+int oldX, oldY, oldAngle;
 double velocity = SPEED;
 int harryStill = TRUE;
 long KeyState[MAX_KEY];
@@ -55,3 +55,4 @@ typedef struct object
 
 OBJECT harry;
 OBJECT *Quaffle;
+OBJECT *bludgers;

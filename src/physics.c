@@ -42,15 +42,15 @@ void rotateBy(OBJECT *Object, float rotation)
 {
    float temp;
 
-   if (fabs(Object->Angle + rotation) < 181)
+   if (fabs(Object->Angle + rotation))
    {
       temp = Object->Angle + rotation;
       Object->Angle = round(temp);
    }
-   else
-   {
-      Object->Angle = Object->Angle * -1;
-   }
+   // else
+   // {
+   //    Object->Angle = Object->Angle * -1;
+   // }
 }
 
 void harryMovements()
@@ -102,7 +102,6 @@ void LaunchProjectile(double X, double Y, double DX, double DY, SDL_Surface *Img
    }
    else
    {
-      // poof explosion animation
       p.X = X;
       p.Y = Y;
       p.FX = X;
@@ -129,7 +128,7 @@ void moveProjectiles()
          p->X = round(p->FX);
          p->Y = round(p->FY);
       }
-      
+
       if (p->Y < -10 || p->Y > SCREEN_H + 10 || p->X < -10 || p->X > SCREEN_W + 10 || p->Life == 0)
       {
          deleteObject(&Quaffle, i, TRUE);
@@ -142,12 +141,49 @@ void ShootQuaffle()
 {
    if (SDL_GetTicks() - shootTime < 500)
    {
-      //Wait
+      // Wait
    }
    else
    {
       shootTime = SDL_GetTicks();
 
       LaunchProjectile(harry.X + 16, harry.Y - 2, 20, 20, quaffle, -1);
+   }
+}
+
+void moveBludgers()
+{
+
+   int i;
+   OBJECT *p;
+
+   for (i = 0; i < length(&bludgers); i++)
+   {
+      p = getObject(bludgers, i);
+      p->DX = p->DX + (5.5 * p->DIRX);
+      p->DY = p->DY + (5.5 * p->DIRY);
+      p->X = round(p->DX);
+      p->Y = round(p->DY);
+      p->Angle += 3.5;
+      if (p->Y < -10)
+      {
+         p->Y = SCREEN_H;
+         p->DY = SCREEN_H;
+      }
+      if (p->Y > SCREEN_H + 10)
+      {
+         p->Y = 0;
+         p->DY = 0;
+      }
+      if (p->X > SCREEN_W + 10)
+      {
+         p->X = 0;
+         p->DX = 0;
+      }
+      if (p->X < -10)
+      {
+         p->X = SCREEN_W;
+         p->DX = SCREEN_W;
+      }
    }
 }

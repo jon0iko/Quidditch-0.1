@@ -17,6 +17,9 @@ void HandleKey(long Sym, int Down){
   if (Sym == SDLK_LEFT) Sym = SDL_SCANCODE_LEFT;
   if (Sym == SDLK_RIGHT) Sym = SDL_SCANCODE_RIGHT;
   if (Sym == SDLK_SPACE) Sym = SDL_SCANCODE_SPACE;
+  if (Sym == SDLK_PAGEDOWN) Sym = SDL_SCANCODE_PAGEDOWN;
+  if (Sym == SDLK_DELETE) Sym = SDL_SCANCODE_DELETE;
+  
    if ((Sym >= 0) && (Sym <= MAX_KEY)) {
     KeyState[Sym] = Down;
     if (Sym == SDLK_ESCAPE) Running = FALSE;    

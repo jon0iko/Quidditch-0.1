@@ -20,6 +20,13 @@ double cosD(int degree)
    return ret;
 }
 
+int collision(int AX1, int AY1, int AX2, int AY2, int BX1, int BY1, int BX2, int BY2)
+{
+   return (AX1 < BX1 + (BX2 - BX1)) && (AX1 + (AX2 - AX1) > BX1) && (AY1 < BY1 + (BY2 - BY1)) && (AY1 + (AY2 - AY1) > BY1);
+}
+
+// harry.X + 5, harry.Y + 5, harry.X + harry.W - 5, harry.Y + harry.H - 5, p->X, p->Y, p->X + p->W, p->Y + p->H
+
 void movePlayerUD(int speed)
 {
 
@@ -47,33 +54,33 @@ void rotateBy(OBJECT *Object, float rotation)
       temp = Object->Angle + rotation;
       Object->Angle = round(temp);
    }
-   // else
-   // {
-   //    Object->Angle = Object->Angle * -1;
-   // }
+   else
+   {
+      Object->Angle = Object->Angle * -1;
+   }
 }
 
 void harryMovements()
 {
-   if (harry.Y < -10)
-   {
-      harry.Y = SCREEN_H;
-      harry.DY = SCREEN_H;
-   }
-   if (harry.Y > SCREEN_H + 10)
+   if (harry.Y < 0)
    {
       harry.Y = 0;
       harry.DY = 0;
    }
-   if (harry.X > SCREEN_W + 10)
+   if (harry.Y + harry.H > SCREEN_H)
+   {
+      harry.Y = SCREEN_H - harry.H;
+      harry.DY = SCREEN_H - harry.H;
+   }
+   if (harry.X + harry.W > SCREEN_W)
+   {
+      harry.X = SCREEN_W - harry.W;
+      harry.DX = SCREEN_W - harry.W;
+   }
+   if (harry.X < 0)
    {
       harry.X = 0;
       harry.DX = 0;
-   }
-   if (harry.X < -10)
-   {
-      harry.X = SCREEN_W;
-      harry.DX = SCREEN_W;
    }
 }
 
@@ -165,6 +172,16 @@ void moveBludgers()
       p->X = round(p->DX);
       p->Y = round(p->DY);
       p->Angle += 3.5;
+
+      if (collision(harry.X + 5, harry.Y + 5, harry.X + harry.W - 5, harry.Y + harry.H - 5, p->X, p->Y, p->X + p->W, p->Y + p->H))
+      {
+         collisionTimer = SDL_GetTicks();
+         collisionFlag = TRUE;
+         harry.X = 100;
+         harry.Y = 100;
+         harry.DX = 100;
+         harry.DY = 100;
+      }
       if (p->Y < -10)
       {
          p->Y = SCREEN_H;
@@ -185,5 +202,26 @@ void moveBludgers()
          p->X = SCREEN_W;
          p->DX = SCREEN_W;
       }
+
+      // if (p->Y > SCREEN_H)
+      // {
+      //    p->Y = SCREEN_H;
+      //    p->DY = SCREEN_H;
+      // }
+      // if (p->Y < 0)
+      // {
+      //    p->Y = 0;
+      //    p->DY = 0;
+      // }
+      // if (p->X < 0)
+      // {
+      //    p->X = 0;
+      //    p->DX = 0;
+      // }
+      // if (p->X > SCREEN_W)
+      // {
+      //    p->X = SCREEN_W;
+      //    p->DX = SCREEN_W;
+      // }
    }
 }

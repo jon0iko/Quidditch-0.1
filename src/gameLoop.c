@@ -3,20 +3,45 @@
 #include "./globals.h"
 #include "./events.c"
 
-void UpdateGame() {
+void UpdateGame()
+{
     oldX = harry.X;
     oldY = harry.Y;
     oldAngle = harry.Angle;
-    if (Key(SDL_SCANCODE_SPACE)) {ShootQuaffle();}
-    if (Key(SDL_SCANCODE_UP) || Key(SDLK_w)) {movePlayerUD(-SPEED);}
-    if (Key(SDL_SCANCODE_DOWN) || Key(SDLK_s)) {movePlayerUD(SPEED);}
-    if (Key(SDL_SCANCODE_RIGHT) || Key(SDLK_d)) {movePlayerLR(-SPEED);}
-    if (Key(SDL_SCANCODE_LEFT) || Key(SDLK_a)) {movePlayerLR(SPEED);}
-    if (Key(SDL_SCANCODE_PAGEDOWN) || Key(SDLK_c)) {rotateBy(&harry, ROTATION);} //ROTATION=5.5
-    if (Key(SDL_SCANCODE_DELETE) || Key(SDLK_z)) {rotateBy(&harry, -ROTATION);}
-    if (mouseclicked == TRUE) {ShootQuaffle();}
-    harryMovements();
+    if (Key(SDL_SCANCODE_SPACE))
+    {
+        ShootQuaffle();
+    }
+    if (Key(SDL_SCANCODE_UP) || Key(SDLK_w))
+    {
+        movePlayerUD(-SPEED);
+    }
+    if (Key(SDL_SCANCODE_DOWN) || Key(SDLK_s))
+    {
+        movePlayerUD(SPEED);
+    }
+    if (Key(SDL_SCANCODE_RIGHT) || Key(SDLK_d))
+    {
+        movePlayerLR(-SPEED);
+    }
+    if (Key(SDL_SCANCODE_LEFT) || Key(SDLK_a))
+    {
+        movePlayerLR(SPEED);
+    }
+    if (Key(SDL_SCANCODE_PAGEDOWN) || Key(SDLK_c))
+    {
+        rotateBy(&harry, ROTATION);
+    } // ROTATION=5.5
+    if (Key(SDL_SCANCODE_DELETE) || Key(SDLK_z))
+    {
+        rotateBy(&harry, -ROTATION);
+    }
+    if (mouseclicked == TRUE)
+    {
+        ShootQuaffle();
+    }
     moveBludgers();
+    harryMovements();
     moveProjectiles();
 }
 
@@ -28,7 +53,19 @@ void gameLoop(void)
     while (Running == TRUE)
     {
         CurrentTime = SDL_GetTicks();
-        if (CurrentTime - LastTime > 1000) {
+
+        if (collisionFlag == 1)
+        {
+            unsigned int elapsedTime = CurrentTime - collisionTimer;
+            if (elapsedTime >= 500)
+            {
+                collisionFlag = FALSE;
+                collisionTimer = 0;
+            }
+        }
+
+        if (CurrentTime - LastTime > 1000)
+        {
             LastTime = CurrentTime - 60;
         }
         while (CurrentTime - LastTime > 1000 / 30)
@@ -40,4 +77,3 @@ void gameLoop(void)
         DrawScreen();
     }
 }
-

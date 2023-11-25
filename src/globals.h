@@ -35,6 +35,8 @@ double velocity = SPEED;
 int harryStill = TRUE;
 long KeyState[MAX_KEY];
 double shootTime = 0;
+int collisionFlag = FALSE;
+unsigned int collisionTimer = 0;
 
 
 typedef struct sprite{

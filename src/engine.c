@@ -108,7 +108,7 @@ void StartGame()
 
     srand((unsigned)time(NULL));
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 5; i++)
     {
         a = rand() % 2;
         if (a == 0)

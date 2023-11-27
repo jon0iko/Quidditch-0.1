@@ -16,7 +16,7 @@ void MainMenu()
     int keyFlag = FALSE;
     SDL_Event e;
 
-    Mix_PlayMusic(ThemeMusic, -1);
+    // Mix_PlayMusic(ThemeMusic, -1);
 
     SDL_RenderClear(renderer);
     Draw(0, 0, MenuBG);

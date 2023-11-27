@@ -121,9 +121,9 @@ void LaunchProjectile(double X, double Y, double DX, double DY, SDL_Surface *Img
    Quaffle = addend(Quaffle, newelement(p));
 }
 
-void moveProjectiles()
+void moveQuaffles()
 {
-   OBJECT *p;
+   OBJECT *p, *a;
    for (int i = 0; i < length(&Quaffle); i++)
    {
       p = getObject(Quaffle, i);
@@ -134,6 +134,19 @@ void moveProjectiles()
          p->FY = p->FY + (p->DY * cosD(p->Angle)) * -1;
          p->X = round(p->FX);
          p->Y = round(p->FY);
+      }
+
+      for (int j = 0; j < length(&bludgers); j++)
+      {
+         a = getObject(bludgers, j);
+         // Collision with bludgers
+         if (collision(p->X, p->Y, p->X + p->W, p->Y + p->H, a->X, a->Y,
+                       a->X + a->W, a->Y + a->H) &&
+             p->Life == -1)
+         {
+            deleteObject(&Quaffle, i, TRUE);
+            break;
+         }
       }
 
       if (p->Y < -10 || p->Y > SCREEN_H + 10 || p->X < -10 || p->X > SCREEN_W + 10 || p->Life == 0)
@@ -173,15 +186,19 @@ void moveBludgers()
       p->Y = round(p->DY);
       p->Angle += 3.5;
 
-      if (collision(harry.X + 5, harry.Y + 5, harry.X + harry.W - 5, harry.Y + harry.H - 5, p->X, p->Y, p->X + p->W, p->Y + p->H))
+      if (harry.X != 100 && harry.Y != 100)
       {
-         collisionTimer = SDL_GetTicks();
-         collisionFlag = TRUE;
-         harry.X = 100;
-         harry.Y = 100;
-         harry.DX = 100;
-         harry.DY = 100;
+         if (collision(harry.X + 5, harry.Y + 5, harry.X + harry.W - 5, harry.Y + harry.H - 5, p->X, p->Y, p->X + p->W, p->Y + p->H))
+         {
+            collisionTimer = SDL_GetTicks();
+            collisionFlag = TRUE;
+            harry.X = 100;
+            harry.Y = 100;
+            harry.DX = 100;
+            harry.DY = 100;
+         }
       }
+
       if (p->Y < -10)
       {
          p->Y = SCREEN_H;

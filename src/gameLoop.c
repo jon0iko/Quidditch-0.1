@@ -42,7 +42,7 @@ void UpdateGame()
     }
     moveBludgers();
     harryMovements();
-    moveProjectiles();
+    moveQuaffles();
 }
 
 void gameLoop(void)

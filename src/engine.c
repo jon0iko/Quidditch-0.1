@@ -5,6 +5,17 @@
 
 #include <stdio.h>
 
+void ToggleFullscreen(SDL_Window* Window) {
+    Uint32 FullscreenFlag = SDL_WINDOW_FULLSCREEN;
+    int IsFullscreen = SDL_GetWindowFlags(Window) & FullscreenFlag;
+    SDL_SetWindowFullscreen(Window, 1);
+    SDL_ShowCursor(IsFullscreen);
+}
+
+void instructions() {
+    
+}
+
 void MainMenu()
 {
     char titleStr[20];
@@ -61,6 +72,12 @@ void MainMenu()
                     {
                         keyFlag = TRUE;
                     }
+                    if (mouseX >= 450 && mouseX <= 520 &&
+                        mouseY >= 275 && mouseY <= 325)
+                    {
+                        instructions();
+                    }
+                    
                 }
             }
         }
@@ -91,8 +108,8 @@ void addBludger(int X, int Y, int DIRX, int DIRY)
 void StartGame()
 {
     int i, a, tDIRX, tDIRY, tX, tY;
-    // lives = MAX_LIFE;
-
+    timeFlag = TRUE;
+    timeElapsed = SDL_GetTicks();
     // harry
     harry.X = 450;
     harry.Y = 350;
@@ -105,6 +122,18 @@ void StartGame()
     harry.Angle = 0;
     oldAngle = harry.Angle;
     harryStill = TRUE;
+
+    //hoop
+    hoop1.X = 945;
+    hoop1.Y = 393;
+    hoop1.W = 62;
+    hoop1.H = 227;
+
+    //snitch
+    snitch.X = 500;
+    snitch.Y = 500;
+    snitch.W = 42;
+    snitch.H = 20;
 
     srand((unsigned)time(NULL));
 

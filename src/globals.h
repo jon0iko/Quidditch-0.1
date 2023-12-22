@@ -23,6 +23,7 @@ SDL_Surface *background = NULL;
 SDL_Surface *quaffle = NULL;
 SDL_Surface *bludger = NULL;
 SDL_Surface *MenuBG = NULL;
+SDL_Surface *hoop = NULL;
 Mix_Music *ThemeMusic = NULL;
 
 
@@ -37,11 +38,20 @@ long KeyState[MAX_KEY];
 double shootTime = 0;
 int collisionFlag = FALSE;
 unsigned int collisionTimer = 0;
+int timeFlag = FALSE;
+unsigned int minutes, seconds, countdown = 120000, timeElapsed = 0, remainingTime;
+int t = 100;
+int upflag = 1, downflag = 1;
 
 
 typedef struct sprite{
    SDL_Surface *Img;
 } SPRITE;
+
+enum HOOPSTATE{first, second, third, fourth, fifth, sixth, seventh, eighth};
+enum HOOPSTATE hoopState;
+
+SPRITE hoopSprite[8];
 
 typedef struct object 
 { 
@@ -53,8 +63,7 @@ typedef struct object
 	struct object *next;
 } OBJECT;
 
-
-
 OBJECT harry;
 OBJECT *Quaffle;
 OBJECT *bludgers;
+OBJECT hoop1, hoop2, snitch;

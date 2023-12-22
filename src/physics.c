@@ -127,7 +127,6 @@ void moveQuaffles()
    for (int i = 0; i < length(&Quaffle); i++)
    {
       p = getObject(Quaffle, i);
-      // Vector rotation
       if (p->Life == -1)
       {
          p->FX = p->FX + (p->DX * sinD(p->Angle));
@@ -196,6 +195,7 @@ void moveBludgers()
             harry.Y = 100;
             harry.DX = 100;
             harry.DY = 100;
+            harry.Angle = 0;
          }
       }
 
@@ -240,5 +240,30 @@ void moveBludgers()
       //    p->X = SCREEN_W;
       //    p->DX = SCREEN_W;
       // }
+   }
+}
+
+void hoopMovement()
+{
+   if (upflag == 1)
+   {
+      hoop1.Y -= 5;
+   }
+   else if (downflag == 1)
+   {
+      hoop1.Y += 5;
+   }
+   
+   if (hoop1.Y < 68)
+   {
+      hoop1.Y += 5;
+      upflag = 0;
+      downflag = 1;
+   }
+   if (hoop1.Y + hoop1.H > SCREEN_H)
+   {
+      hoop1.Y -= 5;
+      downflag = 0;
+      upflag = 1;
    }
 }

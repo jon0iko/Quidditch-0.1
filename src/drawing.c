@@ -71,11 +71,35 @@ void DrawDynamicObject(OBJECT *Object)
   SDL_DestroyTexture(text);
 }
 
+void DrawLife()
+{
+  SDL_Rect rect;
+  rect.x = 80;
+  rect.y = 10;
+  rect.w = (remainingTime / 1000) * 1.25;
+  rect.h = 15;
+  if (remainingTime > 0)
+  {
+    SDL_SetRenderDrawColor(renderer, 118, 36, 3, 0);
+    SDL_RenderDrawRect(renderer, &rect);
+    SDL_RenderFillRect(renderer, &rect);
+  }
+}
+
 void DrawScreen()
 {
   SDL_RenderClear(renderer);
   Draw(0, 0, background);
+
+  char timerText[32], scoreText[32];
+  sprintf(timerText, "%02d:%02d", minutes, seconds);
+  DrawText(timerText, 32, 1, 1, 255, 255, 255, 0, 0, 0, TRUE);
+  sprintf(scoreText, "Score: %02d", seconds);
+  DrawText(scoreText, 32, 900, 1, 255, 255, 255, 0, 0, 0, TRUE);
+
   DrawObject(harry);
+  DrawObject(hoop1);
+  // DrawObject(snitch);
 
   if (bludgers != NULL)
   {
@@ -92,6 +116,6 @@ void DrawScreen()
       DrawDynamicObject(getObject(Quaffle, i));
     }
   }
-
+  DrawLife();
   SDL_RenderPresent(renderer);
 }

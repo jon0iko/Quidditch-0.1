@@ -8,32 +8,33 @@ void UpdateGame()
     oldX = harry.X;
     oldY = harry.Y;
     oldAngle = harry.Angle;
+    if (Key(SDLK_f))
+    {
+        ToggleFullscreen(window);
+    }
     if (Key(SDL_SCANCODE_SPACE))
     {
         ShootQuaffle();
     }
     if (Key(SDL_SCANCODE_UP) || Key(SDLK_w))
     {
-        movePlayerUD(-SPEED);
+        // movePlayerUD(-SPEED);
+        // rotateBy(&harry, ROTATION);
+        movePlayerLR(-SPEED);
     }
     if (Key(SDL_SCANCODE_DOWN) || Key(SDLK_s))
     {
-        movePlayerUD(SPEED);
+        // movePlayerUD(SPEED);
+        rotateBy(&harry, -ROTATION);
     }
     if (Key(SDL_SCANCODE_RIGHT) || Key(SDLK_d))
     {
-        movePlayerLR(-SPEED);
+        // movePlayerLR(-SPEED);
+        rotateBy(&harry, ROTATION);
     }
     if (Key(SDL_SCANCODE_LEFT) || Key(SDLK_a))
     {
-        movePlayerLR(SPEED);
-    }
-    if (Key(SDL_SCANCODE_PAGEDOWN) || Key(SDLK_c))
-    {
-        rotateBy(&harry, ROTATION);
-    } // ROTATION=5.5
-    if (Key(SDL_SCANCODE_DELETE) || Key(SDLK_z))
-    {
+        // movePlayerLR(SPEED);
         rotateBy(&harry, -ROTATION);
     }
     if (mouseclicked == TRUE)
@@ -43,16 +44,25 @@ void UpdateGame()
     moveBludgers();
     harryMovements();
     moveQuaffles();
+    hoopMovement();
 }
 
 void gameLoop(void)
 {
-    unsigned int LastTime, CurrentTime;
+    unsigned int LastTime, CurrentTime, timerTime;
 
     LastTime = SDL_GetTicks();
     while (Running == TRUE)
     {
         CurrentTime = SDL_GetTicks();
+        SDL_GetMouseState(&mouseX, &mouseY);
+        printf("%d %d\n", mouseX, mouseY);
+
+        timerTime = SDL_GetTicks() - timeElapsed;
+        remainingTime = (countdown > timerTime) ? countdown - timerTime : 0;
+
+        minutes = remainingTime / 60000;
+        seconds = (remainingTime % 60000) / 1000;
 
         if (collisionFlag == 1)
         {

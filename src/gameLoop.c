@@ -5,13 +5,28 @@
 
 void UpdateGame()
 {
+
+    timerTime = SDL_GetTicks() - timeElapsed;
+    remainingTime = (countdown > timerTime) ? countdown - timerTime : 0;
+
+    int time = remainingTime;
+    
+    minutes = time / 60000;
+    seconds = (time % 60000) / 1000;
+
+    if (remainingTime == 0)
+    {
+        Running = FALSE;
+        GameOver();
+    }
+    
     oldX = harry.X;
     oldY = harry.Y;
     oldAngle = harry.Angle;
-    if (Key(SDLK_f))
-    {
-        ToggleFullscreen(window);
-    }
+    // if (Key(SDLK_f))
+    // {
+    //     ToggleFullscreen(window);
+    // }
     if (Key(SDL_SCANCODE_SPACE))
     {
         ShootQuaffle();
@@ -25,7 +40,8 @@ void UpdateGame()
     if (Key(SDL_SCANCODE_DOWN) || Key(SDLK_s))
     {
         // movePlayerUD(SPEED);
-        rotateBy(&harry, -ROTATION);
+        //rotateBy(&harry, -ROTATION);
+        movePlayerLR(SPEED);
     }
     if (Key(SDL_SCANCODE_RIGHT) || Key(SDLK_d))
     {
@@ -45,34 +61,21 @@ void UpdateGame()
     harryMovements();
     moveQuaffles();
     hoopMovement();
+    snitchBehavior();
+    scoring();
 }
 
 void gameLoop(void)
 {
-    unsigned int LastTime, CurrentTime, timerTime;
+    unsigned int LastTime, CurrentTime;
 
     LastTime = SDL_GetTicks();
     while (Running == TRUE)
     {
+
         CurrentTime = SDL_GetTicks();
         SDL_GetMouseState(&mouseX, &mouseY);
         printf("%d %d\n", mouseX, mouseY);
-
-        timerTime = SDL_GetTicks() - timeElapsed;
-        remainingTime = (countdown > timerTime) ? countdown - timerTime : 0;
-
-        minutes = remainingTime / 60000;
-        seconds = (remainingTime % 60000) / 1000;
-
-        if (collisionFlag == 1)
-        {
-            unsigned int elapsedTime = CurrentTime - collisionTimer;
-            if (elapsedTime >= 500)
-            {
-                collisionFlag = FALSE;
-                collisionTimer = 0;
-            }
-        }
 
         if (CurrentTime - LastTime > 1000)
         {

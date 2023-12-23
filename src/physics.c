@@ -72,10 +72,10 @@ void harryMovements()
       harry.Y = SCREEN_H - harry.H;
       harry.DY = SCREEN_H - harry.H;
    }
-   if (harry.X + harry.W > SCREEN_W)
+   if (harry.X + harry.W > 890)
    {
-      harry.X = SCREEN_W - harry.W;
-      harry.DX = SCREEN_W - harry.W;
+      harry.X = 890 - harry.W;
+      harry.DX = 890 - harry.W;
    }
    if (harry.X < 0)
    {
@@ -144,6 +144,11 @@ void moveQuaffles()
              p->Life == -1)
          {
             deleteObject(&Quaffle, i, TRUE);
+            if (soundFlag)
+            {
+               Mix_PlayChannel(-1, bludgerCollision, 0);
+            }
+            
             break;
          }
       }
@@ -167,6 +172,11 @@ void ShootQuaffle()
       shootTime = SDL_GetTicks();
 
       LaunchProjectile(harry.X + 16, harry.Y - 2, 20, 20, quaffle, -1);
+      if (soundFlag)
+      {
+         Mix_PlayChannel(7, throw, 0);
+      }
+      
    }
 }
 
@@ -196,6 +206,13 @@ void moveBludgers()
             harry.DX = 100;
             harry.DY = 100;
             harry.Angle = 0;
+            countdown -= 3000;
+
+            if (soundFlag == TRUE)
+            {
+               Mix_PlayChannel(-1, bludgerHit, 0);
+            }
+
          }
       }
 
@@ -219,51 +236,166 @@ void moveBludgers()
          p->X = SCREEN_W;
          p->DX = SCREEN_W;
       }
-
-      // if (p->Y > SCREEN_H)
-      // {
-      //    p->Y = SCREEN_H;
-      //    p->DY = SCREEN_H;
-      // }
-      // if (p->Y < 0)
-      // {
-      //    p->Y = 0;
-      //    p->DY = 0;
-      // }
-      // if (p->X < 0)
-      // {
-      //    p->X = 0;
-      //    p->DX = 0;
-      // }
-      // if (p->X > SCREEN_W)
-      // {
-      //    p->X = SCREEN_W;
-      //    p->DX = SCREEN_W;
-      // }
    }
 }
 
 void hoopMovement()
 {
+
+   int diff;
+
+   if (difficultyFlag == 0)
+   {
+      diff = 5;
+   }
+   else if (difficultyFlag == 1)
+   {
+      diff = 10;
+   }
+   
+
    if (upflag == 1)
    {
-      hoop1.Y -= 5;
+      hoop1.Y -= diff;
+      box.Y -= diff;
    }
    else if (downflag == 1)
    {
-      hoop1.Y += 5;
+      hoop1.Y += diff;
+      box.Y += diff;
    }
-   
+
    if (hoop1.Y < 68)
    {
-      hoop1.Y += 5;
+      hoop1.Y += diff;
+      box.Y += diff;
       upflag = 0;
       downflag = 1;
    }
    if (hoop1.Y + hoop1.H > SCREEN_H)
    {
-      hoop1.Y -= 5;
+      hoop1.Y -= diff;
+      box.Y -= diff;
       downflag = 0;
       upflag = 1;
+   }
+}
+
+void scoring()
+{
+   OBJECT *p, *q;
+   for (int i = 0; i < length(&Quaffle); i++)
+   {
+      p = getObject(Quaffle, i);
+      if (collision(p->X, p->Y, p->X + p->W, p->Y + p->H, box.X, box.Y, box.X + box.W, box.Y + box.H))
+      {
+         if (soundFlag == TRUE)
+         {
+            Mix_PlayChannel(5, hoopScore, 0);
+         }
+         score += 10;
+         p->X += 15;
+         deleteObject(&Quaffle, i, TRUE);
+         countdown += 2000;
+         break;
+      }
+   }
+
+   if (snitchFlag == TRUE)
+   {
+      q = getObject(SNITCH, 0);
+      if (collision(harry.X, harry.Y, harry.X + harry.W, harry.Y + harry.H, q->X, q->Y, q->X + q->W, q->Y + q->H))
+      {
+         if (soundFlag == TRUE)
+         {
+            Mix_PlayChannel(6, snitchCaught, 0);
+         }
+         score += 60;
+         deleteObject(&SNITCH, 0, TRUE);
+         free(SNITCH);
+         snitchFlag = FALSE;
+         sdrawn = FALSE;
+         countdown += 3000;
+      }
+   }
+}
+
+void generateSnitch()
+{
+
+   OBJECT p;
+   int x, y;
+
+   p.index = 0;
+   p.Img = snitch;
+   p.W = 40;
+   p.H = 19;
+   p.Angle = 0;
+
+   srand((unsigned)time(NULL));
+   int minDistance = 15;
+   do
+   {
+      x = rand() % (860);
+      y = rand() % (740);
+      if (y < 60)
+      {
+         y += 60;
+      }
+
+      int distanceX = abs(x - harry.X);
+      int distanceY = abs(y - harry.Y);
+
+      float distance = sqrt((distanceX * distanceX) + (distanceY * distanceY));
+
+      if (distance >= minDistance)
+      {
+         break;
+      }
+
+   } while (1);
+
+   p.X = x;
+   p.Y = y;
+   SNITCH = addend(SNITCH, newelement(p));
+}
+
+void toggleSnitchTexture()
+{
+   OBJECT *p;
+
+   p = getObject(SNITCH, 0);
+   if (frame % snitchAnimationSpeed == 0)
+   {
+      if (p->Img == snitchSprite[0].Img)
+      {
+         p->Img = snitchSprite[1].Img;
+      }
+      else
+      {
+         p->Img = snitchSprite[0].Img;
+      }
+   }
+   frame++;
+}
+
+void snitchBehavior()
+{
+   if (score % 50 == 0 && score != 0 && score > prevScore)
+   {
+      snitchFlag = TRUE;
+   }
+
+   if (snitchFlag == TRUE && sdrawn == FALSE)
+   {
+      generateSnitch();
+      prevScore = score;
+      
+      snitchTimer = SDL_GetTicks();
+      sdrawn = TRUE;
+   }
+   if (sdrawn == TRUE)
+   {
+      toggleSnitchTexture();
    }
 }

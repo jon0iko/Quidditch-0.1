@@ -11,12 +11,14 @@
 #include "./src/globals.h"
 #include "./src/init.c"
 #include "./src/assets.c"
+#include "./src/players.c"
 #include "./src/physics.c"
 #include "./src/engine.c"
 #include "./src/drawing.c"
 #include "./src/events.c"
 #include "./src/gameLoop.c"
 #include "./src/linkedList.c"
+
 
 
 int main()

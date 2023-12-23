@@ -4,9 +4,6 @@
 
 void DrawText(char *string, int size, int x, int y, int fR, int fG, int fB, int bR, int bG, int bB, int transparent)
 {
-
-  // if (TTF_Init == NULL) exit(0);
-
   TTF_Font *font = TTF_OpenFont("src/font/HARRYP__.TTF", size);
 
   SDL_Color foregroundColor = {fR, fG, fB, 0};
@@ -73,16 +70,33 @@ void DrawDynamicObject(OBJECT *Object)
 
 void DrawLife()
 {
+  int color;
   SDL_Rect rect;
-  rect.x = 80;
+  rect.x = 442;
   rect.y = 10;
-  rect.w = (remainingTime / 1000) * 1.25;
+  color = rect.w = (remainingTime / 1000) * 1.25;
   rect.h = 15;
+
   if (remainingTime > 0)
   {
-    SDL_SetRenderDrawColor(renderer, 118, 36, 3, 0);
-    SDL_RenderDrawRect(renderer, &rect);
-    SDL_RenderFillRect(renderer, &rect);
+    if (color > 100)
+    {
+      SDL_SetRenderDrawColor(renderer, 16, 89, 19, 0);
+      SDL_RenderDrawRect(renderer, &rect);
+      SDL_RenderFillRect(renderer, &rect);
+    }
+    else if (color > 50)
+    {
+      SDL_SetRenderDrawColor(renderer, 191, 191, 33, 0);
+      SDL_RenderDrawRect(renderer, &rect);
+      SDL_RenderFillRect(renderer, &rect);
+    }
+    else
+    {
+      SDL_SetRenderDrawColor(renderer, 118, 36, 3, 0);
+      SDL_RenderDrawRect(renderer, &rect);
+      SDL_RenderFillRect(renderer, &rect);
+    }
   }
 }
 
@@ -94,12 +108,27 @@ void DrawScreen()
   char timerText[32], scoreText[32];
   sprintf(timerText, "%02d:%02d", minutes, seconds);
   DrawText(timerText, 32, 1, 1, 255, 255, 255, 0, 0, 0, TRUE);
-  sprintf(scoreText, "Score: %02d", seconds);
-  DrawText(scoreText, 32, 900, 1, 255, 255, 255, 0, 0, 0, TRUE);
+  sprintf(scoreText, "Score: %d", score);
+  DrawText(scoreText, 36, 900, 1, 255, 255, 255, 0, 0, 0, TRUE);
 
   DrawObject(harry);
   DrawObject(hoop1);
-  // DrawObject(snitch);
+  DrawObject(clockk);
+  // DrawObject(box);
+
+  if (snitchTimer != 0 && SDL_GetTicks() - snitchTimer > 3000 && snitchFlag == TRUE)
+  {
+    deleteObject(&SNITCH, 0, TRUE);
+    free(SNITCH);
+    snitchTimer = 0;
+    sdrawn = FALSE;
+    snitchFlag = FALSE;
+  }
+
+  if (snitchFlag && sdrawn)
+  {
+    DrawDynamicObject(getObject(SNITCH, 0));
+  }
 
   if (bludgers != NULL)
   {

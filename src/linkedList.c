@@ -6,24 +6,24 @@
 
 OBJECT *newelement(OBJECT temp)
 {
-    OBJECT *newp;
-    newp = (OBJECT *)malloc(sizeof(OBJECT));
-    newp->index = temp.index;
-    newp->Img = temp.Img;
-    newp->X = temp.X;
-    newp->Y = temp.Y;
-    newp->W = temp.W;
-    newp->H = temp.H;
-    newp->DIRX = temp.DIRX;
-    newp->DIRY = temp.DIRY;
-    newp->Life = temp.Life;
-    newp->DX = temp.DX;
-    newp->DY = temp.DY;
-    newp->FX = temp.FX;
-    newp->FY = temp.FY;
-    newp->Angle = temp.Angle;
-    newp->next = NULL;
-    return newp;
+    OBJECT *p;
+    p = (OBJECT *)malloc(sizeof(OBJECT));
+    p->index = temp.index;
+    p->Img = temp.Img;
+    p->X = temp.X;
+    p->Y = temp.Y;
+    p->W = temp.W;
+    p->H = temp.H;
+    p->DIRX = temp.DIRX;
+    p->DIRY = temp.DIRY;
+    p->Life = temp.Life;
+    p->DX = temp.DX;
+    p->DY = temp.DY;
+    p->FX = temp.FX;
+    p->FY = temp.FY;
+    p->Angle = temp.Angle;
+    p->next = NULL;
+    return p;
 }
 
 OBJECT *addend(OBJECT *head, OBJECT *newp)
